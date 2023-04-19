@@ -43,5 +43,6 @@ Not yet released to the public.  Please wait for a while for its release.
 * Vite 4.2.1
 * MySQL8.0.32
 * Docker 20.10.17
+* Figma 112.2
 * Devise
 * VSCode
