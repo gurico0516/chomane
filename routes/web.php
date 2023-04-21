@@ -38,7 +38,8 @@ Route::middleware('auth')->group(function () {
 
     // allowance
     Route::get('/allowance', [AllowanceController::class, 'index'])->name('allowance.index');
-    Route::get('/allowance/create', [AllowanceController::class, 'create'])->name('allowance.create');
+    Route::get('/allowance/create', [AllowanceController::class, 'createView'])->name('allowance.create');
+    Route::patch('/allowance/create', [AllowanceController::class, 'create'])->name('allowance.create');
 });
 
 require __DIR__.'/auth.php';
