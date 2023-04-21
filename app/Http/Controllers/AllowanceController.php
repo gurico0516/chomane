@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Allowance;
 use App\Services\AllowanceService;
 use App\Http\Requests\AllowanceRequest;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -29,14 +31,43 @@ class AllowanceController extends Controller
     }
 
     /**
-     * Show Allowance list
+     * Show allowance list
      *
      * @return Response
      */
     public function index(): Response
     {
+        $userId    = Auth::id();
+        $allowance = $this->allowanceService->get($userId);
+
         return Inertia::render('Allowance/Index', [
+            'allowance' => $allowance,
+            'status'    => session('status'),
+        ]);
+    }
+
+    /**
+     * Show allowance create page
+     *
+     * @return Response
+     */
+    public function createView(): Response
+    {
+        return Inertia::render('Allowance/Create', [
             'status' => session('status'),
         ]);
+    }
+
+    /**
+     * Create allowance
+     *
+     * @return RedirectResponse
+     */
+    public function create(AllowanceRequest $request): RedirectResponse
+    {
+        $allowance = $request->validated();
+        $this->allowanceService->create($allowance);
+
+        return Redirect::route('allowance.create');
     }
 }
