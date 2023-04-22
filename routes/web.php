@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/allowance', [AllowanceController::class, 'index'])->name('allowance.index');
     Route::get('/allowance/create', [AllowanceController::class, 'createView'])->name('allowance.create');
     Route::patch('/allowance/create', [AllowanceController::class, 'create'])->name('allowance.create');
+    Route::get('/allowance/edit', [AllowanceController::class, 'editView'])->name('allowance.edit');
+    Route::patch('/allowance/edit', [AllowanceController::class, 'edit'])->name('allowance.edit');
 });
 
 require __DIR__.'/auth.php';

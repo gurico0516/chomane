@@ -70,4 +70,30 @@ class AllowanceController extends Controller
 
         return Redirect::route('allowance.create');
     }
+
+    /**
+     * Edit allowance edit page
+     *
+     * @return Response
+     */
+    public function editView(): Response
+    {
+        return Inertia::render('Allowance/Edit', [
+            'status' => session('status'),
+        ]);
+    }
+
+    /**
+     * Edit allowance
+     *
+     * @param integer $allowanceId
+     * @return RedirectResponse
+     */
+    public function edit(AllowanceRequest $request): RedirectResponse
+    {
+        $allowance = $request->validate();
+        $this->allowanceService->create($allowance);
+
+        return Redirect::route('allowance.edit');
+    }
 }
