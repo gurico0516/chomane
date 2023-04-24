@@ -7,17 +7,17 @@ import { Transition } from '@headlessui/react';
 import { FormEventHandler } from 'react';
 import { PageProps } from '@/types';
 
-export default function CreateAllownceInformation({ status, className = '' }: { status?: string, className?: string }) {
-    const allowance = usePage<PageProps>().props.allowance;
+export default function EditAllownceInformation({ status, className = '' }: { status?: string, className?: string }) {
+    const allowanceObject = usePage<PageProps>().props.allowance;
 
-    const { setData, patch, errors, processing, recentlySuccessful } = useForm({
-        allowance: allowance,
+    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+        allowance: allowanceObject?.allowance,
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route('allowance.create'));
+        patch(route('allowance.edit'));
     };
 
     return (
@@ -37,6 +37,7 @@ export default function CreateAllownceInformation({ status, className = '' }: { 
                     <TextInput
                         id="allowance"
                         className="mt-1 block w-full"
+                        value={data.allowance}
                         onChange={(e) => setData('allowance', e.target.value)}
                         required
                     />
