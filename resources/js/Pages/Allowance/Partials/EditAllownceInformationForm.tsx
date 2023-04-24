@@ -8,11 +8,10 @@ import { FormEventHandler } from 'react';
 import { PageProps } from '@/types';
 
 export default function EditAllownceInformation({ status, className = '' }: { status?: string, className?: string }) {
-    // const user = usePage<PageProps>().props.auth.user;
-    const allowance = usePage<PageProps>().props.allowance;
+    const allowanceObject = usePage<PageProps>().props.allowance;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        allowance: allowance,
+        allowance: allowanceObject?.allowance,
     });
 
     const submit: FormEventHandler = (e) => {
@@ -38,13 +37,12 @@ export default function EditAllownceInformation({ status, className = '' }: { st
                     <TextInput
                         id="allowance"
                         className="mt-1 block w-full"
+                        value={data.allowance}
                         onChange={(e) => setData('allowance', e.target.value)}
                         required
-                        isFocused
-                        autoComplete="allowance"
                     />
 
-                    {/* <InputError className="mt-2" message={errors.name} /> */}
+                    <InputError className="mt-2" message={errors.allowance} />
                 </div>
 
                 <div className="flex items-center gap-4">

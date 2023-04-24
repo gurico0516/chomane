@@ -8,10 +8,9 @@ import { FormEventHandler } from 'react';
 import { PageProps } from '@/types';
 
 export default function CreateAllownceInformation({ status, className = '' }: { status?: string, className?: string }) {
-    // const user = usePage<PageProps>().props.auth.user;
     const allowance = usePage<PageProps>().props.allowance;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+    const { setData, patch, errors, processing, recentlySuccessful } = useForm({
         allowance: allowance,
     });
 
@@ -42,7 +41,7 @@ export default function CreateAllownceInformation({ status, className = '' }: { 
                         required
                     />
 
-                    {/* <InputError className="mt-2" message={errors.name} /> */}
+                    <InputError className="mt-2" message={errors.allowance} />
                 </div>
 
                 <div className="flex items-center gap-4">

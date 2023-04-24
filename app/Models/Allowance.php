@@ -14,13 +14,6 @@ class Allowance extends Model
     use HasFactory;
 
     /**
-     * Get the template file
-     *
-     * @var string $primaryKey
-     */
-    protected $primaryKey = 'allowance_id';
-
-    /**
      * Get the template fillable
      *
      * @var Array[number] $fillable
@@ -54,6 +47,63 @@ class Allowance extends Model
             return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
         }
     }
+
+    /**
+     * Edit allowance
+     *
+     * @param array $request
+     * @param integer $allowanceId
+     * @return string
+     */
+    public function edit(array $request, int $allowanceId): string {
+        DB::beginTransaction();
+        try {
+            self::find($allowanceId)->fill($request)->save();
+            DB::commit();
+
+            return 'success status: 200';
+        } catch (Throwable $e) {
+            DB::rollback();
+            Log::error($e);
+
+            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * Delete allowance
+     *
+     * @return string
+     */
+    public function delete(): string {
+        DB::beginTransaction();
+        try {
+            self::where('user_id', Auth::id())->delete();
+            DB::commit();
+
+            return 'success status: 200';
+        } catch (Throwable $e) {
+            DB::rollback();
+            Log::error($e);
+
+            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
+        }
+    }
+
+    // public function delete(array $request, int $userId): string {
+    //     DB::beginTransaction();
+    //     try {
+    //         self::where('user_id', $userId)->delete($userId);
+    //         DB::commit();
+
+    //         return 'success status: 200';
+    //     } catch (Throwable $e) {
+    //         DB::rollback();
+    //         Log::error($e);
+
+    //         return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
+    //     }
+    // }
 
     /**
      * Get allowance

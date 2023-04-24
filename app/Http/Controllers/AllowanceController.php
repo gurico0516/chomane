@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Allowance;
 
 class AllowanceController extends Controller
 {
@@ -65,8 +66,7 @@ class AllowanceController extends Controller
      */
     public function create(AllowanceRequest $request): RedirectResponse
     {
-        $allowance = $request->validated();
-        $this->allowanceService->create($allowance);
+        $this->allowanceService->create($request->validated());
 
         return Redirect::route('allowance.create');
     }
@@ -78,7 +78,11 @@ class AllowanceController extends Controller
      */
     public function editView(): Response
     {
+        $userId    = Auth::id();
+        $allowance = $this->allowanceService->get($userId);
+
         return Inertia::render('Allowance/Edit', [
+            'allowance' => $allowance,
             'status' => session('status'),
         ]);
     }
@@ -91,9 +95,22 @@ class AllowanceController extends Controller
      */
     public function edit(AllowanceRequest $request): RedirectResponse
     {
-        $allowance = $request->validate();
-        $this->allowanceService->create($allowance);
+        $userId      = Auth::id();
+        $allowanceId = $this->allowanceService->get($userId)->id;
+        $this->allowanceService->edit($request->validated(), $allowanceId);
 
         return Redirect::route('allowance.edit');
+    }
+
+    /**
+     * Delete allowance
+     *
+     * @return RedirectResponse
+     */
+    public function delete(): RedirectResponse
+    {
+        $this->allowanceService->delete();
+
+        return Redirect::route('allowance.index');
     }
 }
