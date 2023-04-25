@@ -9,7 +9,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Allowance;
 
 class AllowanceController extends Controller
 {
@@ -23,7 +22,7 @@ class AllowanceController extends Controller
     /**
      * AllowanceController constructor
      *
-     * @param AllowanceService $service
+     * @param AllowanceService $allowanceService
      * @return void
      */
     public function __construct(AllowanceService $allowanceService)
