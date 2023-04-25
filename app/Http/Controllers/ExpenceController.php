@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ExpenceController extends Controller
+class ExpenseController extends Controller
 {
     /**
      * Expense service instance

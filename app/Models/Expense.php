@@ -20,7 +20,7 @@ class Expense extends Model
      */
     protected $fillable = [
         'allowance_id',
-        'expence',
+        'expense',
         'memo',
         'type',
     ];

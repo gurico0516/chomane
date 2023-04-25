@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/allowance/edit', [AllowanceController::class, 'edit'])->name('allowance.edit');
     Route::delete('/allowance', [AllowanceController::class, 'delete'])->name('allowance.delete');
 
-    // expence
+    // expense
 });
 
 require __DIR__.'/auth.php';
