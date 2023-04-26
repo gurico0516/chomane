@@ -60,7 +60,6 @@ sail artisan migrate
 
 # Insert initial data
 sail artisan db:seed
-
 ```
 
 Lastly, build `Laravel-Mix`.
@@ -70,7 +69,6 @@ sail npm install
 
 # Build
 sail npm run dev
-
 ```
 
 Now you can visit `http://localhost/` from your browser.  
@@ -78,11 +76,10 @@ Now you can visit `http://localhost/` from your browser.
 ANd you can login `admin page` by user admin01@example.com password `Admin!01`.
 
 ## Walkthrough
-1. Register an account through Sign Up
-2. Log in and register your weekly allowance now.
-3. Enter money spent daily from expenses to keep track of your spending.
-4. Your registered allowance can also be viewed in the calendar and graph.
-5. Use the app's settings feature to configure the app to your liking and make it easy to use!
+1. Log in and register your weekly allowance now.
+2. Enter money spent daily from expenses to keep track of your spending.
+3. Your registered allowance can also be viewed in the calendar and graph.
+4. Use the app's settings feature to configure the app to your liking and make it easy to use!
 
 ## Built Using
 * PHP 8.2.5
