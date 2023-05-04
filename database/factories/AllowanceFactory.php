@@ -17,7 +17,8 @@ class AllowanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'allowance' => fake()->text(5),
+            'user_id'    => $this->faker->randomDigit,
+            'allowance'  => '1000',
         ];
     }
 
