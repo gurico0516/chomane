@@ -73,7 +73,7 @@ sail npm run dev
 
 Now you can visit `http://localhost/` from your browser.  
 
-ANd you can login `admin page` by user admin01@example.com password `Admin!01`.
+And you can login `admin page` by user admin01@example.com password `Admin!01`.
 
 ## Walkthrough
 1. Log in and register your weekly allowance now.
