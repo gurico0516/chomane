@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Allowance;
 use App\Models\User;
+use App\Models\Allowance;
 
 test('allowance page is displayed', function () {
     $user = User::factory()->create();
@@ -14,7 +14,7 @@ test('allowance page is displayed', function () {
 });
 
 test('allowance information can be updated', function () {
-    $user = User::factory()->create();
+    $user      = User::factory()->create();
     $allowance = Allowance::factory()->create(['user_id' => $user->id]);
 
     $response = $this
@@ -33,7 +33,7 @@ test('allowance information can be updated', function () {
 });
 
 test('user can delete their allowance', function () {
-    $user = User::factory()->create();
+    $user      = User::factory()->create();
     $allowance = Allowance::factory()->create(['user_id' => $user->id]);
 
     $response = $this
