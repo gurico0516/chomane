@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class Allowance extends Model
@@ -16,7 +16,7 @@ class Allowance extends Model
     /**
      * Get the template fillable
      *
-     * @var Array[number] $fillable
+     * @var Array[number]
      */
     protected $fillable = [
         'allowance',
@@ -25,16 +25,13 @@ class Allowance extends Model
 
     /**
      * Create allowance
-     *
-     * @param array $request
-     * @return string
      */
     public function create(array $request): string
     {
         DB::beginTransaction();
         try {
-            $allowance            = new Allowance();
-            $allowance->user_id   = Auth::id();
+            $allowance = new Allowance();
+            $allowance->user_id = Auth::id();
             $allowance->allowance = $request['allowance'];
             $allowance->save();
             DB::commit();
@@ -44,18 +41,15 @@ class Allowance extends Model
             DB::rollback();
             Log::error($e);
 
-            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
+            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
         }
     }
 
     /**
      * Edit allowance
-     *
-     * @param array $request
-     * @param integer $allowanceId
-     * @return string
      */
-    public function edit(array $request, int $allowanceId): string {
+    public function edit(array $request, int $allowanceId): string
+    {
         DB::beginTransaction();
         try {
             self::find($allowanceId)->fill($request)->save();
@@ -66,16 +60,15 @@ class Allowance extends Model
             DB::rollback();
             Log::error($e);
 
-            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
+            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
         }
     }
 
     /**
      * Delete allowance
-     *
-     * @return string
      */
-    public function delete(): string {
+    public function delete(): string
+    {
         DB::beginTransaction();
         try {
             self::where('user_id', Auth::id())->delete();
@@ -86,7 +79,7 @@ class Allowance extends Model
             DB::rollback();
             Log::error($e);
 
-            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
+            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
         }
     }
 
@@ -107,11 +100,9 @@ class Allowance extends Model
 
     /**
      * Get allowance
-     *
-     * @param integer $userId
-     * @return object
      */
-    public function get(int $userId): object {
+    public function get(int $userId): object
+    {
         $getAllowance = self::where('user_id', $userId)
                             ->latest('created_at')
                             ->first();
