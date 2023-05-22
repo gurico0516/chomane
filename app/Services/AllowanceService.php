@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Allowance;
 use Illuminate\Support\Facades\Log;
+use App\Models\Allowance;
 use Throwable;
 
 class AllowanceService
@@ -18,6 +18,7 @@ class AllowanceService
     /**
      * AllowanceService constructor
      *
+     * @param Allowance $allowanceModel
      * @return void
      */
     public function __construct(Allowance $allowanceModel)
@@ -27,6 +28,9 @@ class AllowanceService
 
     /**
      * Create allowance
+     *
+     * @param array $request
+     * @return string
      */
     public function create(array $request): string
     {
@@ -34,18 +38,21 @@ class AllowanceService
             $this->allowanceModel->create($request);
 
             return 'success status: 200';
-        } catch (Throwable $e) {
+        } catch(Throwable $e) {
             Log::error($e);
 
-            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
+            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
         }
     }
 
     /**
      * Edit allowance
+     *
+     * @param array $request
+     * @param integer $allowanceId
+     * @return string
      */
-    public function edit(array $request, int $allowanceId): string
-    {
+    public function edit(array $request, int $allowanceId): string {
         try {
             $this->allowanceModel->edit($request, $allowanceId);
 
@@ -53,15 +60,16 @@ class AllowanceService
         } catch (Throwable $e) {
             Log::error($e);
 
-            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
+            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
         }
     }
 
     /**
      * Delete allowance
+     *
+     * @return string
      */
-    public function delete(): string
-    {
+    public function delete(): string {
         try {
             $this->allowanceModel->delete();
 
@@ -69,12 +77,15 @@ class AllowanceService
         } catch (Throwable $e) {
             Log::error($e);
 
-            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
+            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
         }
     }
 
     /**
      * Get allowance
+     *
+     * @param integer $userId
+     * @return object|string
      */
     public function get(int $userId): object|string
     {
@@ -82,10 +93,10 @@ class AllowanceService
             $allowance = $this->allowanceModel->get($userId);
 
             return $allowance;
-        } catch (Throwable $e) {
+        } catch(Throwable $e) {
             Log::error($e);
 
-            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
+            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
         }
     }
 }
