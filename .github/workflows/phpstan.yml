@@ -1,0 +1,25 @@
+name: larastan
+on:
+  pull_request:
+    paths:
+      - "**.php"
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1.10'
+          tools: composer:v2
+      - name: Resolve dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Run PHPstan
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.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 }}
+        run: ./vendor/bin/phpstan analyse --error-format=raw --no-progress | reviewdog -reporter=github-pr-review -f=phpstan
