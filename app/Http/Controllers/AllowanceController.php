@@ -60,7 +60,7 @@ class AllowanceController extends Controller
     {
         $this->allowanceService->create($request->validated());
 
-        return Redirect::route('allowance.create');
+        return Redirect::route('allowance.index');
     }
 
     /**

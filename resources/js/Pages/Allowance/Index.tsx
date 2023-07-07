@@ -34,7 +34,7 @@ export default function Index({ auth, allowance }: PageProps<{ allowance?: Allow
                         </Link>
                     </label>
                     <label className="rounded flex-auto w-64 bg-blue-400 text-white m-1 p-1 text-center">
-                        <a href="{{ route('balances.create') }}">
+                        <a href={route("expense.create", allowance?.id)}>
                             <button>支出の記録</button>
                         </a>
                     </label>

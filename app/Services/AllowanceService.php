@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\Models\Allowance;
+use App\Models\Expense;
 use Illuminate\Support\Facades\Log;
 use Throwable;
+
+use function PHPSTORM_META\type;
 
 class AllowanceService
 {
@@ -16,13 +19,21 @@ class AllowanceService
     protected $allowanceModel;
 
     /**
+     * Expense model
+     *
+     * @var Expense
+     */
+    protected $expenseModel;
+
+    /**
      * AllowanceService constructor
      *
      * @return void
      */
-    public function __construct(Allowance $allowanceModel)
+    public function __construct(Allowance $allowanceModel, Expense $expenseModel)
     {
         $this->allowanceModel = $allowanceModel;
+        $this->expenseModel = $expenseModel;
     }
 
     /**
@@ -87,5 +98,24 @@ class AllowanceService
 
             return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
         }
+    }
+
+    public function decrease(int $userId)
+    {
+        $allowance = $this->allowanceModel->get($userId);
+        $expense = $this->expenseModel->get($allowance->id);
+        $amount = $this->getAmount($allowance->allowance, $expense->expense);
+
+        if ($allowance) {
+            $allowance->allowance = $amount;
+            $allowance->save();
+        }
+    }
+
+    private function getAmount(string $allowance, string $expense): int
+    {
+        $amount = $allowance - $expense;
+
+        return $amount;
     }
 }

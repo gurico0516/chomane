@@ -75,28 +75,14 @@ class Allowance extends Model
             DB::commit();
 
             return 'success status: 200';
-        } catch (Throwable $e) {
+        } catch
+        (\Exception $e) {
             DB::rollback();
-            Log::error($e);
+            Log::error('Failed to create an expense: ', ['error' => $e->getMessage()]);
 
-            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
+            return 'Failed to create an expense: status ' . $e->getCode();
         }
     }
-
-    // public function delete(array $request, int $userId): string {
-    //     DB::beginTransaction();
-    //     try {
-    //         self::where('user_id', $userId)->delete($userId);
-    //         DB::commit();
-
-    //         return 'success status: 200';
-    //     } catch (Throwable $e) {
-    //         DB::rollback();
-    //         Log::error($e);
-
-    //         return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
-    //     }
-    // }
 
     /**
      * Get allowance
@@ -104,8 +90,8 @@ class Allowance extends Model
     public function get(int $userId): object
     {
         $getAllowance = self::where('user_id', $userId)
-                            ->latest('created_at')
-                            ->first();
+            ->latest('created_at')
+            ->first();
 
         return $getAllowance;
     }

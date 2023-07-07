@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AllowanceController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -38,13 +39,15 @@ Route::middleware('auth')->group(function () {
 
     // allowance
     Route::get('/allowance', [AllowanceController::class, 'index'])->name('allowance.index');
-    Route::get('/allowance/create', [AllowanceController::class, 'createView'])->name('allowance.create');
+    Route::get('/allowance/create', [AllowanceController::class, 'createView'])->name('allowance.createView');
     Route::patch('/allowance/create', [AllowanceController::class, 'create'])->name('allowance.create');
     Route::get('/allowance/edit', [AllowanceController::class, 'editView'])->name('allowance.edit');
     Route::patch('/allowance/edit', [AllowanceController::class, 'edit'])->name('allowance.edit');
     Route::delete('/allowance', [AllowanceController::class, 'delete'])->name('allowance.delete');
 
     // expense
+    Route::get('/expense/create', [ExpenseController::class, 'createView'])->name('expense.createView');
+    Route::post('/expense/create', [ExpenseController::class, 'create'])->name('expense.create');
 });
 
 require __DIR__.'/auth.php';
