@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AllowanceRequest;
+use App\Services\ExpenseService;
 use App\Services\AllowanceService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +21,21 @@ class AllowanceController extends Controller
     protected $allowanceService;
 
     /**
+     * Expense service instance
+     *
+     * @var ExpenseService
+     */
+    protected $expenseService;
+
+    /**
      * AllowanceController constructor
      *
      * @return void
      */
-    public function __construct(AllowanceService $allowanceService)
+    public function __construct(AllowanceService $allowanceService, ExpenseService $expenseService)
     {
         $this->allowanceService = $allowanceService;
+        $this->expenseService = $expenseService;
     }
 
     /**
@@ -38,9 +47,11 @@ class AllowanceController extends Controller
     {
         $userId = Auth::id();
         $allowance = $this->allowanceService->get($userId);
+        $expenses = $this->expenseService->getAll($userId);
 
         return Inertia::render('Allowance/Index', [
             'allowance' => $allowance,
+            'expenses' => $expenses,
             'status' => session('status'),
         ]);
     }

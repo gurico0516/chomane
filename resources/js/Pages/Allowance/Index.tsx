@@ -3,13 +3,37 @@ import DeleteAllowanceForm from "@/Pages/Allowance/Partials/DeleteAllowanceForm"
 import { Head, Link } from '@inertiajs/react';
 import { PageProps } from '@/types';
 
+interface InertiaPage<T> {
+    data: T[];
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    meta: {
+        current_page: number;
+        last_page: number;
+        per_page: number;
+        total: number;
+        from: number;
+        to: number;
+    };
+}
+
 interface Allowance {
     id: number;
     allowance: string;
     user_id: number;
 }
 
-export default function Index({ auth, allowance }: PageProps<{ allowance?: Allowance }>) {
+interface Expense {
+    allowance_id: number;
+    expense: string;
+    memo: string;
+    type: string;
+}
+
+export default function Index({ auth, allowance, expenses }: PageProps<{ allowance?: Allowance, expenses?: Expense[] }>) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -45,18 +69,20 @@ export default function Index({ auth, allowance }: PageProps<{ allowance?: Allow
                 <DeleteAllowanceForm className="max-w-xl" />
             </div>
 
-            <div className="bg-white shadow-sm sm:rounded-lg">
-                <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-                    <div className="flex flex-col">
-                        <span className="text-2xl text-gray-800"></span>
+            {expenses?.map((expense, index) => (
+                <div key={index} className="bg-white shadow-sm sm:rounded-lg">
+                    <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+                        <div className="flex flex-col">
+                            <span className="text-2xl text-gray-800">
+                                {expense.expense}
+                            </span>
+                        </div>
+                        <a href="">
+                            <p className="text-xl">{expense.memo}</p>
+                        </a>
                     </div>
-                    <a href="{{ route('balances.show', $balance->id) }}">
-                        <p className="text-xl"></p>
-                        <p className="text-xl"></p>
-                        <p className="text-xl"></p>
-                    </a>
                 </div>
-            </div>
+            ))}
         </AuthenticatedLayout>
     );
 }

@@ -43,4 +43,23 @@ class ExpenseService
             return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
         }
     }
+
+    /**
+     * Get allowance
+     *
+     * @param int $allowance_id
+     * @return object|string
+     */
+    public function getAll(int $allowance_id): object|string
+    {
+        try {
+            $allowance = $this->expenseModel->getAll($allowance_id);
+
+            return $allowance;
+        } catch (Throwable $e) {
+            Log::error($e);
+
+            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
+        }
+    }
 }

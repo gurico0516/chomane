@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
+use Carbon\Carbon;
 
 class Expense extends Model
 {
@@ -37,6 +38,7 @@ class Expense extends Model
         try {
             $expense = new Expense();
             $expense->allowance_id = Allowance::where('user_id', Auth::id())->latest('id')->first()->id;
+            $expense->user_id = Auth::id();
             $expense->expense = $request['expense'];
             $expense->memo = $request['memo'];
             $expense->type = $request['type'];
@@ -63,6 +65,24 @@ class Expense extends Model
         $getExpense = self::where('allowance_id', $allowanceId)
             ->latest('created_at')
             ->first();
+
+        return $getExpense;
+    }
+
+    /**
+     * Get expense
+     *
+     * @param int $userId
+     * @return object
+     */
+    public function getAll(int $userId): object
+    {
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $getExpense = self::where('user_id', $userId)
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->get();
 
         return $getExpense;
     }
