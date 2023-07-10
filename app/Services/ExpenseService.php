@@ -27,6 +27,9 @@ class ExpenseService
 
     /**
      * Create expense
+     *
+     * @param array $request
+     * @return string
      */
     public function create(array $request): string
     {

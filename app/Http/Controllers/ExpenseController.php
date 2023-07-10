@@ -40,6 +40,8 @@ class ExpenseController extends Controller
 
     /**
      * Show Expense create page
+     *
+     * @return Response
      */
     public function createView(): Response
     {
@@ -50,6 +52,9 @@ class ExpenseController extends Controller
 
     /**
      * Create Expense
+     *
+     * @param ExpenseRequest $request
+     * @return RedirectResponse
      */
     public function create(ExpenseRequest $request): RedirectResponse
     {

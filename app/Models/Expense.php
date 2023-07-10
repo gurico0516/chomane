@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class Expense extends Model
 {
@@ -26,6 +27,9 @@ class Expense extends Model
 
     /**
      * Create expense
+     *
+     * @param array $request
+     * @return string
      */
     public function create(array $request): string
     {
@@ -38,9 +42,9 @@ class Expense extends Model
             $expense->type = $request['type'];
             $expense->save();
             DB::commit();
+
             return 'Expense created successfully: status 200';
-        } catch
-        (\Exception $e) {
+        } catch (Throwable $e) {
             DB::rollback();
             Log::error('Failed to create an expense: ', ['error' => $e->getMessage()]);
 
@@ -50,6 +54,9 @@ class Expense extends Model
 
     /**
      * Get expense
+     *
+     * @param int $allowanceId
+     * @return object
      */
     public function get(int $allowanceId): object
     {

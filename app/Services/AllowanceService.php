@@ -38,6 +38,9 @@ class AllowanceService
 
     /**
      * Create allowance
+     *
+     * @param array $request
+     * @return string
      */
     public function create(array $request): string
     {
@@ -54,6 +57,10 @@ class AllowanceService
 
     /**
      * Edit allowance
+     *
+     * @param array $request
+     * @param int $allowanceId
+     * @return string
      */
     public function edit(array $request, int $allowanceId): string
     {
@@ -70,6 +77,8 @@ class AllowanceService
 
     /**
      * Delete allowance
+     *
+     * @return string
      */
     public function delete(): string
     {
@@ -86,6 +95,9 @@ class AllowanceService
 
     /**
      * Get allowance
+     *
+     * @param int $userId
+     * @return object|string
      */
     public function get(int $userId): object|string
     {
@@ -100,22 +112,21 @@ class AllowanceService
         }
     }
 
-    public function decrease(int $userId)
+    /**
+     * Get amount of allowance
+     *
+     * @param int $userId
+     * @return void
+     */
+    public function decrease(int $userId): void
     {
         $allowance = $this->allowanceModel->get($userId);
         $expense = $this->expenseModel->get($allowance->id);
-        $amount = $this->getAmount($allowance->allowance, $expense->expense);
+        $amount = $allowance->allowance - $expense->expense;
 
         if ($allowance) {
             $allowance->allowance = $amount;
             $allowance->save();
         }
-    }
-
-    private function getAmount(string $allowance, string $expense): int
-    {
-        $amount = $allowance - $expense;
-
-        return $amount;
     }
 }
