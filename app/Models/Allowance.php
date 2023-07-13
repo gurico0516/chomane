@@ -16,7 +16,7 @@ class Allowance extends Model
     /**
      * Get the template fillable
      *
-     * @var Array[number]
+     * @var array<string>
      */
     protected $fillable = [
         'allowance',
@@ -25,11 +25,8 @@ class Allowance extends Model
 
     /**
      * Create allowance
-     *
-     * @param array $request
-     * @return string
      */
-    public function create(array $request): string
+    public function create(array $request): void
     {
         DB::beginTransaction();
         try {
@@ -37,72 +34,70 @@ class Allowance extends Model
             $allowance->user_id = Auth::id();
             $allowance->allowance = $request['allowance'];
             $allowance->save();
-            DB::commit();
 
-            return 'success status: 200';
+            DB::commit();
         } catch (Throwable $e) {
             DB::rollback();
             Log::error($e);
-
-            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
         }
     }
 
     /**
      * Edit allowance
-     *
-     * @param array $request
-     * @param int $allowanceId
-     * @return string
      */
-    public function edit(array $request, int $allowanceId): string
+    public function edit(array $request, int $allowanceId): void
     {
         DB::beginTransaction();
         try {
             self::find($allowanceId)->fill($request)->save();
-            DB::commit();
 
-            return 'success status: 200';
+            DB::commit();
         } catch (Throwable $e) {
             DB::rollback();
             Log::error($e);
-
-            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
         }
     }
 
     /**
      * Delete allowance
      *
-     * @return string
+     * @throws \Exception
      */
-    public function delete(): string
+    public function deleteAllowance(): void
     {
         DB::beginTransaction();
         try {
             self::where('user_id', Auth::id())->delete();
-            DB::commit();
 
-            return 'success status: 200';
+            DB::commit();
         } catch (Throwable $e) {
             DB::rollback();
             Log::error('Failed to create an expense: ', ['error' => $e->getMessage()]);
-
-            return 'Failed to create an expense: status ' . $e->getCode();
+            throw $e;
         }
     }
 
     /**
      * Get allowance
-     *
-     * @param int $userId
      */
-    public function get(int $userId): object
+    public function get(int $userId): ?object
     {
         $getAllowance = self::where('user_id', $userId)
             ->latest('created_at')
             ->first();
 
         return $getAllowance;
+    }
+
+    /**
+     * Get one allowance
+     */
+    public function getOneById(int $userId): ?int
+    {
+        $allowance = self::where('user_id', $userId)
+            ->latest('created_at')
+            ->first();
+
+        return $allowance->id;
     }
 }

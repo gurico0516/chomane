@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\Models\Expense;
-use Illuminate\Support\Facades\Log;
-use Throwable;
 
 class ExpenseService
 {
@@ -27,39 +25,19 @@ class ExpenseService
 
     /**
      * Create expense
-     *
-     * @param array $request
-     * @return string
      */
-    public function create(array $request): string
+    public function create(array $request): void
     {
-        try {
-            $this->expenseModel->create($request);
-
-            return 'success status: 200';
-        } catch (Throwable $e) {
-            Log::error($e);
-
-            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
-        }
+        $this->expenseModel->create($request);
     }
 
     /**
      * Get allowance
-     *
-     * @param int $allowance_id
-     * @return object|string
      */
-    public function getAll(int $allowance_id): object|string
+    public function getAll(int $allowanceId): object
     {
-        try {
-            $allowance = $this->expenseModel->getAll($allowance_id);
+        $allowance = $this->expenseModel->getAll($allowanceId);
 
-            return $allowance;
-        } catch (Throwable $e) {
-            Log::error($e);
-
-            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
-        }
+        return $allowance;
     }
 }

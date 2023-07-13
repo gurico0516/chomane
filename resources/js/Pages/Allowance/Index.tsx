@@ -50,11 +50,19 @@ export default function Index({
         >
             <Head title="Allowance" />
             <div className="bg-white shadow-sm sm:rounded-lg mb-10">
-                <Link href={route("allowance.edit", allowance?.user_id)}>
-                    <button className="bg-gray-700 w-full text-white text-4xl px-4 py-2">
-                        {allowance?.allowance ? allowance?.allowance : 0}円
-                    </button>
-                </Link>
+                {allowance?.user_id ? (
+                    <Link href={route("allowance.edit", allowance?.user_id)}>
+                        <button className="bg-gray-700 w-full text-white text-4xl px-4 py-2">
+                            {allowance?.allowance ? allowance?.allowance : 0}円
+                        </button>
+                    </Link>
+                ) : (
+                    <Link href={route("allowance.create")}>
+                        <button className="bg-gray-700 w-full text-white text-4xl px-4 py-2">
+                            {allowance?.allowance ? allowance?.allowance : 0}円
+                        </button>
+                    </Link>
+                )}
                 <div className="flex">
                     <label className={`${commonClasses} bg-green-400`}>
                         <Link href={route("allowance.create")}>
