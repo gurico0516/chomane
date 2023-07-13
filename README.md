@@ -15,8 +15,6 @@ This web application is featuring basic like below:
 * expense create function
 * expense editing function
 * expense deletion function
-* application setting function
-* pagenation
 
 ## Prefece
 
