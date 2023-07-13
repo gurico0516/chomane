@@ -17,7 +17,7 @@ class Expense extends Model
     /**
      * Get the template fillable
      *
-     * @var Array[number]
+     * @var array<string>
      */
     protected $fillable = [
         'allowance_id',
@@ -29,7 +29,7 @@ class Expense extends Model
     /**
      * Create expense
      */
-    public function create(array $request): string
+    public function create(array $request): void
     {
         DB::beginTransaction();
         try {
@@ -40,14 +40,11 @@ class Expense extends Model
             $expense->memo = $request['memo'];
             $expense->type = $request['type'];
             $expense->save();
-            DB::commit();
 
-            return 'Expense created successfully: status 200';
+            DB::commit();
         } catch (Throwable $e) {
             DB::rollback();
             Log::error('Failed to create an expense: ', ['error' => $e->getMessage()]);
-
-            return 'Failed to create an expense: status '.$e->getCode();
         }
     }
 

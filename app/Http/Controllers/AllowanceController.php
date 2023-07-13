@@ -94,10 +94,10 @@ class AllowanceController extends Controller
     public function edit(AllowanceRequest $request): RedirectResponse
     {
         $userId = Auth::id();
-        $allowanceId = $this->allowanceService->get($userId)->id;
+        $allowanceId = $this->allowanceService->getOneById($userId);
         $this->allowanceService->edit($request->validated(), $allowanceId);
 
-        return Redirect::route('allowance.edit');
+        return Redirect::route('allowance.index');
     }
 
     /**
