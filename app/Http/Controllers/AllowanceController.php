@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AllowanceRequest;
+use App\Services\ExpenseService;
 use App\Services\AllowanceService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -20,31 +21,45 @@ class AllowanceController extends Controller
     protected $allowanceService;
 
     /**
+     * Expense service instance
+     *
+     * @var ExpenseService
+     */
+    protected $expenseService;
+
+    /**
      * AllowanceController constructor
      *
      * @return void
      */
-    public function __construct(AllowanceService $allowanceService)
+    public function __construct(AllowanceService $allowanceService, ExpenseService $expenseService)
     {
         $this->allowanceService = $allowanceService;
+        $this->expenseService = $expenseService;
     }
 
     /**
      * Show allowance list
+     *
+     * @return Response
      */
     public function index(): Response
     {
         $userId = Auth::id();
         $allowance = $this->allowanceService->get($userId);
+        $expenses = $this->expenseService->getAll($userId);
 
         return Inertia::render('Allowance/Index', [
             'allowance' => $allowance,
+            'expenses' => $expenses,
             'status' => session('status'),
         ]);
     }
 
     /**
      * Show allowance create page
+     *
+     * @return Response
      */
     public function createView(): Response
     {
@@ -55,16 +70,21 @@ class AllowanceController extends Controller
 
     /**
      * Create allowance
+     *
+     * @param AllowanceRequest $request
+     * @return RedirectResponse
      */
     public function create(AllowanceRequest $request): RedirectResponse
     {
         $this->allowanceService->create($request->validated());
 
-        return Redirect::route('allowance.create');
+        return Redirect::route('allowance.index');
     }
 
     /**
      * Edit allowance edit page
+     *
+     * @return Response
      */
     public function editView(): Response
     {
@@ -80,7 +100,8 @@ class AllowanceController extends Controller
     /**
      * Edit allowance
      *
-     * @param  int  $allowanceId
+     * @param AllowanceRequest $request
+     * @return RedirectResponse
      */
     public function edit(AllowanceRequest $request): RedirectResponse
     {

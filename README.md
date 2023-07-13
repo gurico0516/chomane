@@ -10,13 +10,11 @@ This web application is featuring basic like below:
 * allowance create function
 * allowance editing function
 * allowance deletion function
-* allowance calendar display function
 * allowance graph display function
+* expense list display function
 * expense create function
 * expense editing function
 * expense deletion function
-* application setting function
-* pagenation
 
 ## Prefece
 

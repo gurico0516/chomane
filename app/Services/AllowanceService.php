@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Allowance;
+use App\Models\Expense;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -16,17 +17,28 @@ class AllowanceService
     protected $allowanceModel;
 
     /**
+     * Expense model
+     *
+     * @var Expense
+     */
+    protected $expenseModel;
+
+    /**
      * AllowanceService constructor
      *
      * @return void
      */
-    public function __construct(Allowance $allowanceModel)
+    public function __construct(Allowance $allowanceModel, Expense $expenseModel)
     {
         $this->allowanceModel = $allowanceModel;
+        $this->expenseModel = $expenseModel;
     }
 
     /**
      * Create allowance
+     *
+     * @param array $request
+     * @return string
      */
     public function create(array $request): string
     {
@@ -43,6 +55,10 @@ class AllowanceService
 
     /**
      * Edit allowance
+     *
+     * @param array $request
+     * @param int $allowanceId
+     * @return string
      */
     public function edit(array $request, int $allowanceId): string
     {
@@ -59,6 +75,8 @@ class AllowanceService
 
     /**
      * Delete allowance
+     *
+     * @return string
      */
     public function delete(): string
     {
@@ -75,6 +93,9 @@ class AllowanceService
 
     /**
      * Get allowance
+     *
+     * @param int $userId
+     * @return object|string
      */
     public function get(int $userId): object|string
     {
@@ -86,6 +107,24 @@ class AllowanceService
             Log::error($e);
 
             return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
+        }
+    }
+
+    /**
+     * Get amount of allowance
+     *
+     * @param int $userId
+     * @return void
+     */
+    public function decrease(int $userId): void
+    {
+        $allowance = $this->allowanceModel->get($userId);
+        $expense = $this->expenseModel->get($allowance->id);
+        $amount = $allowance->allowance - $expense->expense;
+
+        if ($allowance) {
+            $allowance->allowance = $amount;
+            $allowance->save();
         }
     }
 }

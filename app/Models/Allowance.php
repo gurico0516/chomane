@@ -25,6 +25,9 @@ class Allowance extends Model
 
     /**
      * Create allowance
+     *
+     * @param array $request
+     * @return string
      */
     public function create(array $request): string
     {
@@ -47,6 +50,10 @@ class Allowance extends Model
 
     /**
      * Edit allowance
+     *
+     * @param array $request
+     * @param int $allowanceId
+     * @return string
      */
     public function edit(array $request, int $allowanceId): string
     {
@@ -66,6 +73,8 @@ class Allowance extends Model
 
     /**
      * Delete allowance
+     *
+     * @return string
      */
     public function delete(): string
     {
@@ -77,35 +86,22 @@ class Allowance extends Model
             return 'success status: 200';
         } catch (Throwable $e) {
             DB::rollback();
-            Log::error($e);
+            Log::error('Failed to create an expense: ', ['error' => $e->getMessage()]);
 
-            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
+            return 'Failed to create an expense: status ' . $e->getCode();
         }
     }
 
-    // public function delete(array $request, int $userId): string {
-    //     DB::beginTransaction();
-    //     try {
-    //         self::where('user_id', $userId)->delete($userId);
-    //         DB::commit();
-
-    //         return 'success status: 200';
-    //     } catch (Throwable $e) {
-    //         DB::rollback();
-    //         Log::error($e);
-
-    //         return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
-    //     }
-    // }
-
     /**
      * Get allowance
+     *
+     * @param int $userId
      */
     public function get(int $userId): object
     {
         $getAllowance = self::where('user_id', $userId)
-                            ->latest('created_at')
-                            ->first();
+            ->latest('created_at')
+            ->first();
 
         return $getAllowance;
     }
