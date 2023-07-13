@@ -1,11 +1,11 @@
-name: larastan
+name: Codecheck
 on:
   pull_request:
     paths:
       - "**.php"
 
 jobs:
-  analyse:
+  larastan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
