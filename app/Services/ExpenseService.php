@@ -27,9 +27,6 @@ class ExpenseService
 
     /**
      * Create expense
-     *
-     * @param array $request
-     * @return string
      */
     public function create(array $request): string
     {
@@ -40,15 +37,12 @@ class ExpenseService
         } catch (Throwable $e) {
             Log::error($e);
 
-            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
+            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
         }
     }
 
     /**
      * Get allowance
-     *
-     * @param int $allowance_id
-     * @return object|string
      */
     public function getAll(int $allowance_id): object|string
     {
@@ -59,7 +53,7 @@ class ExpenseService
         } catch (Throwable $e) {
             Log::error($e);
 
-            return 'error status: ' . (string) $e->getCode() . 'error message: ' . $e->getMessage();
+            return 'error status: '.(string) $e->getCode().'error message: '.$e->getMessage();
         }
     }
 }

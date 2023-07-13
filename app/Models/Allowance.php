@@ -25,9 +25,6 @@ class Allowance extends Model
 
     /**
      * Create allowance
-     *
-     * @param array $request
-     * @return string
      */
     public function create(array $request): string
     {
@@ -50,10 +47,6 @@ class Allowance extends Model
 
     /**
      * Edit allowance
-     *
-     * @param array $request
-     * @param int $allowanceId
-     * @return string
      */
     public function edit(array $request, int $allowanceId): string
     {
@@ -73,8 +66,6 @@ class Allowance extends Model
 
     /**
      * Delete allowance
-     *
-     * @return string
      */
     public function delete(): string
     {
@@ -88,14 +79,12 @@ class Allowance extends Model
             DB::rollback();
             Log::error('Failed to create an expense: ', ['error' => $e->getMessage()]);
 
-            return 'Failed to create an expense: status ' . $e->getCode();
+            return 'Failed to create an expense: status '.$e->getCode();
         }
     }
 
     /**
      * Get allowance
-     *
-     * @param int $userId
      */
     public function get(int $userId): object
     {

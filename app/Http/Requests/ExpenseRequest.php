@@ -7,8 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 class ExpenseRequest extends FormRequest
 {
     public const ALLOWANCE_ID_KEY = 'allowance_id';
+
     public const EXPENSE_KEY = 'expense';
+
     public const MEMO_KEY = 'memo';
+
     public const TYPE_KEY = 'type';
 
     /**

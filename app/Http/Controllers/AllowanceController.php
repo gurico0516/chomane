@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AllowanceRequest;
-use App\Services\ExpenseService;
 use App\Services\AllowanceService;
+use App\Services\ExpenseService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -40,8 +40,6 @@ class AllowanceController extends Controller
 
     /**
      * Show allowance list
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -58,8 +56,6 @@ class AllowanceController extends Controller
 
     /**
      * Show allowance create page
-     *
-     * @return Response
      */
     public function createView(): Response
     {
@@ -70,9 +66,6 @@ class AllowanceController extends Controller
 
     /**
      * Create allowance
-     *
-     * @param AllowanceRequest $request
-     * @return RedirectResponse
      */
     public function create(AllowanceRequest $request): RedirectResponse
     {
@@ -83,8 +76,6 @@ class AllowanceController extends Controller
 
     /**
      * Edit allowance edit page
-     *
-     * @return Response
      */
     public function editView(): Response
     {
@@ -99,9 +90,6 @@ class AllowanceController extends Controller
 
     /**
      * Edit allowance
-     *
-     * @param AllowanceRequest $request
-     * @return RedirectResponse
      */
     public function edit(AllowanceRequest $request): RedirectResponse
     {
