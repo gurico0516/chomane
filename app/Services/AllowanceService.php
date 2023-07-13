@@ -7,8 +7,6 @@ use App\Models\Expense;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-use function PHPSTORM_META\type;
-
 class AllowanceService
 {
     /**
