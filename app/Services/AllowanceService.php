@@ -2,85 +2,104 @@
 
 namespace App\Services;
 
-use App\Models\Allowance;
-use App\Models\Expense;
+use App\Repositories\AllowanceRepository;
+use App\Repositories\ExpenseRepository;
 
 class AllowanceService
 {
     /**
-     * Allowance model
+     * Allowance repository instance
      *
-     * @var Allowance
+     * @var AllowanceRepository
      */
-    protected $allowanceModel;
+    protected $allowanceRepository;
 
     /**
-     * Expense model
+     * Expense repository instance
      *
-     * @var Expense
+     * @var ExpenseRepository
      */
-    protected $expenseModel;
+    protected $expenseRepository;
 
     /**
-     * AllowanceService constructor
+     * @param AllowanceRepository $allowanceRepository
+     * @param ExpenseRepository $expenseRepository
      */
-    public function __construct(Allowance $allowanceModel, Expense $expenseModel)
+    public function __construct(AllowanceRepository $allowanceRepository, ExpenseRepository $expenseRepository)
     {
-        $this->allowanceModel = $allowanceModel;
-        $this->expenseModel = $expenseModel;
+        $this->allowanceRepository = $allowanceRepository;
+        $this->expenseRepository = $expenseRepository;
     }
 
     /**
      * Create allowance
+     *
+     * @param array $request
+     * @return void
      */
     public function create(array $request): void
     {
-        $this->allowanceModel->create($request);
+        $this->allowanceRepository->create($request);
     }
 
     /**
      * Edit allowance
+     *
+     * @param array $request
+     * @param int $allowanceId
+     * @return void
      */
     public function edit(array $request, int $allowanceId): void
     {
-        $this->allowanceModel->edit($request, $allowanceId);
+        $this->allowanceRepository->edit($request, $allowanceId);
     }
 
     /**
      * Delete allowance
+     *
+     * @return void
      */
     public function delete(): void
     {
-        $this->allowanceModel->deleteAllowance();
+        $this->allowanceRepository->deleteAllowance();
     }
 
     /**
      * Get allowance
+     *
+     * @param int $userId
+     * @return object|null
      */
     public function get(int $userId): ?object
     {
-        $allowance = $this->allowanceModel->get($userId);
+        $allowance = $this->allowanceRepository->get($userId);
 
         return $allowance;
     }
 
     /**
      * Get allowance
+     *
+     * @param int $userId
+     * @return int|null
      */
     public function getOneById(int $userId): ?int
     {
-        $allowance = $this->allowanceModel->get($userId);
+        $allowance = $this->allowanceRepository->get($userId);
 
         return $allowance->id;
     }
 
     /**
      * Get amount of allowance
+     *
+     * @param int $userId
+     * @return void
      */
     public function decrease(int $userId): void
     {
-        $allowance = $this->allowanceModel->get($userId);
-        $expense = $this->expenseModel->get($allowance->id);
+        $allowance = $this->allowanceRepository->get($userId);
+        $expense = $this->expenseRepository->get($allowance->id);
         $amount = $allowance->allowance - $expense->expense;
 
         if ($allowance) {

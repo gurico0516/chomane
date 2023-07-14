@@ -30,7 +30,6 @@ class ExpenseController extends Controller
     /**
      * ExpenseController constructor
      *
-     * @return void
      */
     public function __construct(ExpenseService $expenseService, AllowanceService $allowanceService)
     {
@@ -40,6 +39,8 @@ class ExpenseController extends Controller
 
     /**
      * Show Expense create page
+     *
+     * @return Response
      */
     public function createView(): Response
     {
@@ -50,6 +51,9 @@ class ExpenseController extends Controller
 
     /**
      * Create Expense
+     *
+     * @param ExpenseRequest $request
+     * @return RedirectResponse
      */
     public function create(ExpenseRequest $request): RedirectResponse
     {

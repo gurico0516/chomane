@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Throwable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Expense extends Model
 {
@@ -27,51 +23,18 @@ class Expense extends Model
     ];
 
     /**
-     * Create expense
+     * @return BelongsTo<Allowance,Expense>
      */
-    public function create(array $request): void
+    public function allowance(): BelongsTo
     {
-        DB::beginTransaction();
-        try {
-            $expense = new Expense();
-            $expense->allowance_id = Allowance::where('user_id', Auth::id())->latest('id')->first()->id;
-            $expense->user_id = Auth::id();
-            $expense->expense = $request['expense'];
-            $expense->memo = $request['memo'];
-            $expense->type = $request['type'];
-            $expense->save();
-
-            DB::commit();
-        } catch (Throwable $e) {
-            DB::rollback();
-            Log::error('Failed to create an expense: ', ['error' => $e->getMessage()]);
-        }
+        return $this->belongsTo(Allowance::class);
     }
 
     /**
-     * Get expense
+     * @return BelongsTo<User,Expense>
      */
-    public function get(int $allowanceId): object
+    public function user(): BelongsTo
     {
-        $getExpense = self::where('allowance_id', $allowanceId)
-            ->latest('created_at')
-            ->first();
-
-        return $getExpense;
-    }
-
-    /**
-     * Get expense
-     */
-    public function getAll(int $userId): object
-    {
-        $startOfWeek = Carbon::now()->startOfWeek();
-        $endOfWeek = Carbon::now()->endOfWeek();
-
-        $getExpense = self::where('user_id', $userId)
-            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->get();
-
-        return $getExpense;
+        return $this->belongsTo(User::class);
     }
 }
