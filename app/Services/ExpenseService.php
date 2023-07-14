@@ -2,41 +2,46 @@
 
 namespace App\Services;
 
-use App\Models\Expense;
+use App\Repositories\ExpenseRepository;
 
 class ExpenseService
 {
     /**
-     * Expense model
+     * Expense repository instance
      *
-     * @var Expense
+     * @var ExpenseRepository
      */
-    protected $expenseModel;
+    protected $expenseRepository;
 
     /**
      * ExpenseService constructor
      *
      * @return void
      */
-    public function __construct(Expense $expenseModel)
+    public function __construct(ExpenseRepository $expenseRepository)
     {
-        $this->expenseModel = $expenseModel;
+        $this->expenseRepository = $expenseRepository;
     }
 
     /**
      * Create expense
+     *
+     * @param array $request
+     * @return void
      */
     public function create(array $request): void
     {
-        $this->expenseModel->create($request);
+        $this->expenseRepository->create($request);
     }
 
     /**
      * Get allowance
+     *
+     * @return object
      */
     public function getAll(int $allowanceId): object
     {
-        $allowance = $this->expenseModel->getAll($allowanceId);
+        $allowance = $this->expenseRepository->getAll($allowanceId);
 
         return $allowance;
     }
