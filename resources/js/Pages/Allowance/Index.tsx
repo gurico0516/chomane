@@ -10,6 +10,7 @@ interface Allowance {
 }
 
 interface Expense {
+    id: number;
     allowance_id: number;
     expense: string;
     memo: string;
@@ -81,19 +82,21 @@ export default function Index({
             </div>
             {expenses?.map((expense, index) => (
                 <div key={index} className="bg-white shadow-sm sm:rounded-lg">
-                    <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-                        <div className="flex flex-col">
-                            <span className="text-2xl text-gray-800">
-                                {expense.expense}
-                            </span>
+                    <Link href={route("expense.edit", expense?.id)}>
+                        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+                            <div className="flex flex-col">
+                                <span className="text-2xl text-gray-800">
+                                    {expense.expense}
+                                </span>
+                            </div>
+                            <div>
+                                <p className="text-xl">{expense.memo}</p>
+                                <p className="text-xl">
+                                    {getExpenseType(expense.type)}
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <p className="text-xl">{expense.memo}</p>
-                            <p className="text-xl">
-                                {getExpenseType(expense.type)}
-                            </p>
-                        </div>
-                    </div>
+                    </Link>
                 </div>
             ))}
         </AuthenticatedLayout>

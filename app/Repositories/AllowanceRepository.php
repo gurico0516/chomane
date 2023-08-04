@@ -37,6 +37,7 @@ class AllowanceRepository
      *
      * @param array $request
      * @param int $allowanceId
+     * @return void
      */
     public function edit(array $request, int $allowanceId): void
     {

@@ -38,7 +38,7 @@ class ExpenseController extends Controller
     }
 
     /**
-     * Show Expense create page
+     * Show expense create page
      *
      * @return Response
      */
@@ -50,7 +50,7 @@ class ExpenseController extends Controller
     }
 
     /**
-     * Create Expense
+     * Create expense
      *
      * @param ExpenseRequest $request
      * @return RedirectResponse
@@ -62,6 +62,50 @@ class ExpenseController extends Controller
 
         $userId = Auth::id();
         $this->allowanceService->decrease($userId);
+
+        return Redirect::route('allowance.index');
+    }
+
+    /**
+     * Edit expense edit page
+     *
+     * @param int $expenseId
+     * @return Response
+     */
+    public function editView(int $expenseId): Response
+    {
+        $expense = $this->expenseService->getById($expenseId);
+
+        return Inertia::render('Expense/Edit', [
+            'expense' => $expense,
+            'status' => session('status'),
+        ]);
+    }
+
+    /**
+     * Edit expense
+     *
+     * @param ExpenseRequest $request
+     * @param int $expenseId
+     * @return RedirectResponse
+     */
+    public function edit(ExpenseRequest $request, int $expenseId): RedirectResponse
+    {
+        $validated = $request->validated();
+        $this->expenseService->edit($validated, $expenseId);
+
+        return Redirect::route('allowance.index');
+    }
+
+    /**
+     * Delete expense
+     *
+     * @param int $expenseId
+     * @return RedirectResponse
+     */
+    public function delete(int $expenseId): RedirectResponse
+    {
+        $this->expenseService->delete($expenseId);
 
         return Redirect::route('allowance.index');
     }
