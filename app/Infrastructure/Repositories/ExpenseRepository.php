@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Infrastructure\Repositories;
 
-use App\Models\Expense;
-use App\Models\Allowance;
+use App\Domains\Allowance\Entities\Allowance;
+use App\Domains\Expense\Entities\Expense;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -123,5 +123,23 @@ class ExpenseRepository
             Log::error('Failed to create an expense: ', ['error' => $e->getMessage()]);
             throw $e;
         }
+    }
+
+    /**
+     * Get weekly summary
+     * 
+     * @return object
+     */
+    public function getWeeklySummary(): object
+    {
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+    
+        $expenses = Expense::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->groupBy('type')
+            ->select('type', DB::raw('sum(expense) as total'))
+            ->get();
+    
+        return $expenses;
     }
 }

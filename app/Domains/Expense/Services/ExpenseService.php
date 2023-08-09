@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Domains\Expense\Services;
 
-use App\Repositories\ExpenseRepository;
+use App\Infrastructure\Repositories\ExpenseRepository;
 
 class ExpenseService
 {
@@ -42,9 +42,7 @@ class ExpenseService
      */
     public function getAll(int $allowanceId): object
     {
-        $allowance = $this->expenseRepository->getAll($allowanceId);
-
-        return $allowance;
+        return $this->expenseRepository->getAll($allowanceId);
     }
 
     /**
@@ -55,9 +53,7 @@ class ExpenseService
      */
     public function getById(int $id): object
     {
-        $expense = $this->expenseRepository->getById($id);
-
-        return $expense;
+        return $this->expenseRepository->getById($id);
     }
 
     /**
@@ -89,5 +85,15 @@ class ExpenseService
     public function delete(): void
     {
         $this->expenseRepository->deleteExpense();
+    }
+
+    /**
+     * Get weekly summary
+     * 
+     * @return object
+     */
+    public function getWeeklySummary(): object
+    {
+        return $this->expenseRepository->getWeeklySummary();
     }
 }

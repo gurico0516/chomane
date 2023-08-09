@@ -10,14 +10,13 @@ This web application is featuring basic like below:
 * allowance create function
 * allowance editing function
 * allowance deletion function
-* allowance graph display function
+* expense graph display function
 * expense list display function
 * expense create function
 * expense editing function
 * expense deletion function
 
 ## Prefece
-
 This application is intended to be used on Mac OS  or Linux (probably available on Windows, unconfirmed).
 
 And following instructions are only for Mac OS , sorry.
@@ -76,8 +75,8 @@ And you can login `admin page` by user admin01@example.com password `Admin!01`.
 ## Walkthrough
 1. Log in and register your weekly allowance now.
 2. Enter money spent daily from expenses to keep track of your spending.
-3. Your registered allowance can also be viewed in the calendar and graph.
-4. Use the app's settings feature to configure the app to your liking and make it easy to use!
+3. Your registered expenses can also be viewed graph.
+4. Use the app's feature to make it happy to your life!
 
 ## Built Using
 * PHP 8.2.5

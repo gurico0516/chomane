@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Domains\Allowance\Services;
 
-use App\Repositories\AllowanceRepository;
-use App\Repositories\ExpenseRepository;
+use App\Infrastructure\Repositories\AllowanceRepository;
+use App\Infrastructure\Repositories\ExpenseRepository;
 
 class AllowanceService
 {
@@ -72,9 +72,7 @@ class AllowanceService
      */
     public function get(int $userId): ?object
     {
-        $allowance = $this->allowanceRepository->get($userId);
-
-        return $allowance;
+        return $this->allowanceRepository->get($userId);
     }
 
     /**

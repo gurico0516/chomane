@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AllowanceRequest;
-use App\Services\AllowanceService;
-use App\Services\ExpenseService;
+use App\Application\Services\ExpenseApplicationService;
+use App\Application\Services\AllowanceApplicationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -16,25 +16,25 @@ class AllowanceController extends Controller
     /**
      * Allowance service instance
      *
-     * @var AllowanceService
+     * @var AllowanceApplicationService
      */
-    protected $allowanceService;
+    protected $allowanceApplicationService;
 
     /**
      * Expense service instance
      *
-     * @var ExpenseService
+     * @var ExpenseApplicationService
      */
-    protected $expenseService;
+    protected $expenseApplicationService;
 
     /**
      * AllowanceController constructor
      *
      */
-    public function __construct(AllowanceService $allowanceService, ExpenseService $expenseService)
+    public function __construct(AllowanceApplicationService $allowanceApplicationService, ExpenseApplicationService $expenseApplicationService)
     {
-        $this->allowanceService = $allowanceService;
-        $this->expenseService = $expenseService;
+        $this->allowanceApplicationService = $allowanceApplicationService;
+        $this->expenseApplicationService = $expenseApplicationService;
     }
 
     /**
@@ -45,14 +45,34 @@ class AllowanceController extends Controller
     public function index(): Response
     {
         $userId = Auth::id();
-        $allowance = $this->allowanceService->get($userId);
-        $expenses = $this->expenseService->getAll($userId);
+        $allowance = $this->allowanceApplicationService->get($userId);
+        $expenses = $this->expenseApplicationService->getAll($userId);
+
+        $weeklyExpenses = $this->getWeeklySummaryData($userId);
 
         return Inertia::render('Allowance/Index', [
             'allowance' => $allowance,
             'expenses' => $expenses,
+            'weeklyExpenses' => $weeklyExpenses,
             'status' => session('status'),
         ]);
+    }
+
+    /**
+     * Get weekly summary data
+     *
+     * @param int $userId
+     * @return array
+     */
+    protected function getWeeklySummaryData(int $userId): array
+    {
+        $expenses = $this->expenseApplicationService->getWeeklySummary($userId);
+        return $expenses->map(function ($expense) {
+            return [
+                'type' => $expense->type,
+                'total' => $expense->total
+            ];
+        })->toArray();
     }
 
     /**
@@ -75,7 +95,7 @@ class AllowanceController extends Controller
      */
     public function create(AllowanceRequest $request): RedirectResponse
     {
-        $this->allowanceService->create($request->validated());
+        $this->allowanceApplicationService->create($request->validated());
 
         return Redirect::route('allowance.index');
     }
@@ -88,7 +108,7 @@ class AllowanceController extends Controller
     public function editView(): Response
     {
         $userId = Auth::id();
-        $allowance = $this->allowanceService->get($userId);
+        $allowance = $this->allowanceApplicationService->get($userId);
 
         return Inertia::render('Allowance/Edit', [
             'allowance' => $allowance,
@@ -105,8 +125,8 @@ class AllowanceController extends Controller
     public function edit(AllowanceRequest $request): RedirectResponse
     {
         $userId = Auth::id();
-        $allowanceId = $this->allowanceService->getOneById($userId);
-        $this->allowanceService->edit($request->validated(), $allowanceId);
+        $allowanceId = $this->allowanceApplicationService->getOneById($userId);
+        $this->allowanceApplicationService->edit($request->validated(), $allowanceId);
 
         return Redirect::route('allowance.index');
     }
@@ -118,7 +138,7 @@ class AllowanceController extends Controller
      */
     public function delete(): RedirectResponse
     {
-        $this->allowanceService->delete();
+        $this->allowanceApplicationService->delete();
 
         return Redirect::route('allowance.index');
     }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Domains\User\Entities\User;
 use App\Providers\RouteServiceProvider;
 
 test('login screen can be rendered', function () {

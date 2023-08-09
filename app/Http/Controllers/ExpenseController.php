@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ExpenseRequest;
-use App\Services\AllowanceService;
-use App\Services\ExpenseService;
+use App\Application\Services\ExpenseApplicationService;
+use App\Application\Services\AllowanceApplicationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -16,25 +16,25 @@ class ExpenseController extends Controller
     /**
      * Expense service instance
      *
-     * @var ExpenseService
+     * @var ExpenseApplicationService
      */
-    protected $expenseService;
+    protected $expenseApplicationService;
 
     /**
      * Allowance service instance
      *
-     * @var AllowanceService
+     * @var AllowanceApplicationService
      */
-    protected $allowanceService;
+    protected $allowanceApplicationService;
 
     /**
      * ExpenseController constructor
      *
      */
-    public function __construct(ExpenseService $expenseService, AllowanceService $allowanceService)
+    public function __construct(ExpenseApplicationService $expenseApplicationService, AllowanceApplicationService $allowanceApplicationService)
     {
-        $this->expenseService = $expenseService;
-        $this->allowanceService = $allowanceService;
+        $this->expenseApplicationService = $expenseApplicationService;
+        $this->allowanceApplicationService = $allowanceApplicationService;
     }
 
     /**
@@ -58,10 +58,10 @@ class ExpenseController extends Controller
     public function create(ExpenseRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        $this->expenseService->create($validated);
+        $this->expenseApplicationService->create($validated);
 
         $userId = Auth::id();
-        $this->allowanceService->decrease($userId);
+        $this->allowanceApplicationService->decrease($userId);
 
         return Redirect::route('allowance.index');
     }
@@ -74,7 +74,7 @@ class ExpenseController extends Controller
      */
     public function editView(int $expenseId): Response
     {
-        $expense = $this->expenseService->getById($expenseId);
+        $expense = $this->expenseApplicationService->getById($expenseId);
 
         return Inertia::render('Expense/Edit', [
             'expense' => $expense,
@@ -92,10 +92,10 @@ class ExpenseController extends Controller
     public function edit(ExpenseRequest $request, int $expenseId): RedirectResponse
     {
         $validated = $request->validated();
-        $response = $this->expenseService->edit($validated, $expenseId);
+        $response = $this->expenseApplicationService->edit($validated, $expenseId);
 
         $userId = Auth::id();
-        $this->allowanceService->recalculateAfterExpenseEdit($userId, $response['originalExpense'], $response['newExpense']);
+        $this->allowanceApplicationService->recalculateAfterExpenseEdit($userId, $response['originalExpense'], $response['newExpense']);
 
         return Redirect::route('allowance.index');
     }
@@ -107,7 +107,7 @@ class ExpenseController extends Controller
      */
     public function delete(): RedirectResponse
     {
-        $this->expenseService->delete();
+        $this->expenseApplicationService->delete();
 
         return Redirect::route('allowance.index');
     }

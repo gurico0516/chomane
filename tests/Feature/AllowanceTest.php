@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Allowance;
-use App\Models\User;
+use App\Domains\Allowance\Entities\Allowance;
+use App\Domains\User\Entities\User;
 
 test('allowance page is displayed', function () {
     $user = User::factory()->create();
