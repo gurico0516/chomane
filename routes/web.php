@@ -48,8 +48,8 @@ Route::middleware('auth')->group(function () {
     // expense
     Route::get('/expense/create', [ExpenseController::class, 'createView'])->name('expense.createView');
     Route::post('/expense/create', [ExpenseController::class, 'create'])->name('expense.create');
-    Route::get('/expense/edit', [ExpenseController::class, 'editView'])->name('expense.editView');
-    Route::patch('/expense/edit', [ExpenseController::class, 'edit'])->name('expense.edit');
+    Route::get('/expense/edit/{expenseId}', [ExpenseController::class, 'editView'])->name('expense.editView');
+    Route::post('/expense/edit/{expenseId}', [ExpenseController::class, 'edit'])->name('expense.edit');
     Route::delete('/expense', [ExpenseController::class, 'delete'])->name('expense.delete');
 });
 

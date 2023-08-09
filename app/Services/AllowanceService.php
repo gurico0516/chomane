@@ -107,4 +107,29 @@ class AllowanceService
             $allowance->save();
         }
     }
+
+
+    /**
+     * Recalculate allowance after expense edit
+     * 
+     * @param int $userId
+     * @param float $originalExpense
+     * @param float $newExpense
+     * @return void
+     */
+    public function recalculateAfterExpenseEdit(int $userId, float $originalExpense, float $newExpense): void
+    {
+        $allowance = $this->allowanceRepository->get($userId);
+        if (!$allowance) {
+            return;
+        }
+
+        // 元々のExpenseデータを元に戻す
+        $allowance->allowance += $originalExpense;
+
+        // 新しいExpenseの値で再計算
+        $allowance->allowance -= $newExpense;
+
+        $allowance->save();
+    }
 }

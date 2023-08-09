@@ -108,15 +108,14 @@ class ExpenseRepository
     /**
      * Delete expense
      *
-     * @param int $expenseId
      * @throws \Exception
      * @return void
      */
-    public function deleteExpense(int $expenseId): void
+    public function deleteExpense(): void
     {
         DB::beginTransaction();
         try {
-            Expense::where('id', $expenseId)->delete();
+            Expense::where('user_id', Auth::id())->delete();
 
             DB::commit();
         } catch (Throwable $e) {

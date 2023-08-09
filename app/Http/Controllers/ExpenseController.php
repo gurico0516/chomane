@@ -92,7 +92,10 @@ class ExpenseController extends Controller
     public function edit(ExpenseRequest $request, int $expenseId): RedirectResponse
     {
         $validated = $request->validated();
-        $this->expenseService->edit($validated, $expenseId);
+        $response = $this->expenseService->edit($validated, $expenseId);
+
+        $userId = Auth::id();
+        $this->allowanceService->recalculateAfterExpenseEdit($userId, $response['originalExpense'], $response['newExpense']);
 
         return Redirect::route('allowance.index');
     }
@@ -100,12 +103,11 @@ class ExpenseController extends Controller
     /**
      * Delete expense
      *
-     * @param int $expenseId
      * @return RedirectResponse
      */
-    public function delete(int $expenseId): RedirectResponse
+    public function delete(): RedirectResponse
     {
-        $this->expenseService->delete($expenseId);
+        $this->expenseService->delete();
 
         return Redirect::route('allowance.index');
     }

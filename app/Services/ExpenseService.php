@@ -65,21 +65,29 @@ class ExpenseService
      *
      * @param array $request
      * @param int $expenseId
-     * @return void
+     * @return array
      */
-    public function edit(array $request, int $expenseId): void
+    public function edit(array $request, int $expenseId): array
     {
+        $originalExpense = $this->expenseRepository->getById($expenseId)->expense;
         $this->expenseRepository->edit($request, $expenseId);
+
+        $newExpense = $request['expense'];
+        $expenseResponse = [
+            'originalExpense' => $originalExpense,
+            'newExpense' => $newExpense,
+        ];
+
+        return $expenseResponse;
     }
 
     /**
      * Delete expense
      *
-     * @param int $expenseId
      * @return void
      */
-    public function delete(int $expenseId): void
+    public function delete(): void
     {
-        $this->expenseRepository->deleteExpense($expenseId);
+        $this->expenseRepository->deleteExpense();
     }
 }

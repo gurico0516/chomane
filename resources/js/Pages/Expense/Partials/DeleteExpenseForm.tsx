@@ -29,7 +29,7 @@ export default function DeleteExpenseForm({ className = '' }: { className?: stri
     const deleteUser: FormEventHandler = (e) => {
         e.preventDefault();
 
-        destroy(route('allowance.delete'), {
+        destroy(route('expense.delete'), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onFinish: () => reset(),
@@ -45,10 +45,10 @@ export default function DeleteExpenseForm({ className = '' }: { className?: stri
     return (
         <section className={`space-y-6 ${className}`}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">お小遣いデータ削除</h2>
+                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100"></h2>
             </header>
 
-            <DangerButton onClick={confirmUserDeletion}>削除</DangerButton>
+            <DangerButton onClick={confirmUserDeletion}>支出データ削除</DangerButton>
 
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
                 <form onSubmit={deleteUser} className="p-6">
@@ -73,10 +73,10 @@ export default function DeleteExpenseForm({ className = '' }: { className?: stri
                     </div>
 
                     <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
+                        <SecondaryButton onClick={closeModal}>キャンセル</SecondaryButton>
 
                         <DangerButton className="ml-3" disabled={processing}>
-                            Delete Account
+                            削除
                         </DangerButton>
                     </div>
                 </form>

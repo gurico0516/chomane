@@ -7,8 +7,12 @@ import { Transition } from '@headlessui/react';
 import { FormEventHandler } from 'react';
 import { PageProps } from '@/types';
 
+type AllownceObjectType = {
+    allowance?: string;
+};
+
 export default function EditAllownceInformation({ status, className = '' }: { status?: string, className?: string }) {
-    const allowanceObject = usePage<PageProps>().props.allowance;
+    const allowanceObject = usePage<PageProps<{ allowance: AllownceObjectType }>>().props.allowance;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         allowance: allowanceObject?.allowance,
