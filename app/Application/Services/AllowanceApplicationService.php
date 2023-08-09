@@ -6,12 +6,18 @@ use App\Domains\Allowance\Services\AllowanceService;
 
 class AllowanceApplicationService
 {
+    /**
+     * Allowance service instance
+     *
+     * @var AllowanceService
+     */
     protected $allowanceService;
 
     public function __construct(AllowanceService $allowanceService)
     {
         $this->allowanceService = $allowanceService;
     }
+
     /**
      * Create allowance
      *

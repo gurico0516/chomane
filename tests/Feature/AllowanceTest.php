@@ -1,10 +1,10 @@
 <?php
 
-use App\Domains\Allowance\Entities\Allowance;
-use App\Domains\User\Entities\User;
+use Database\Factories\UserFactory;
+use Database\Factories\AllowanceFactory;
 
 test('allowance page is displayed', function () {
-    $user = User::factory()->create();
+    $user = UserFactory::new()->create();
 
     $response = $this
         ->actingAs($user)
@@ -14,8 +14,8 @@ test('allowance page is displayed', function () {
 });
 
 test('allowance information can be created', function () {
-    $user = User::factory()->create();
-    $allowance = Allowance::factory()->create(['user_id' => $user->id]);
+    $user = UserFactory::new()->create();
+    $allowance = AllowanceFactory::new()->create(['user_id' => $user->id]);
 
     $response = $this
         ->actingAs($user)
@@ -33,8 +33,8 @@ test('allowance information can be created', function () {
 });
 
 test('allowance information can be updated', function () {
-    $user = User::factory()->create();
-    $allowance = Allowance::factory()->create(['user_id' => $user->id]);
+    $user = UserFactory::new()->create();
+    $allowance = AllowanceFactory::new()->create(['user_id' => $user->id]);
 
     $response = $this
         ->actingAs($user)
@@ -52,8 +52,8 @@ test('allowance information can be updated', function () {
 });
 
 test('user can delete their allowance', function () {
-    $user = User::factory()->create();
-    $allowance = Allowance::factory()->create(['user_id' => $user->id]);
+    $user = UserFactory::new()->create();
+    $allowance = AllowanceFactory::new()->create(['user_id' => $user->id]);
 
     $response = $this
         ->actingAs($user)

@@ -6,6 +6,11 @@ use App\Domains\Expense\Services\ExpenseService;
 
 class ExpenseApplicationService
 {
+    /**
+     * Expense service instance
+     *
+     * @var ExpenseService
+     */
     protected $expenseService;
 
     public function __construct(ExpenseService $expenseService)

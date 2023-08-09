@@ -48,7 +48,7 @@ class AllowanceController extends Controller
         $allowance = $this->allowanceApplicationService->get($userId);
         $expenses = $this->expenseApplicationService->getAll($userId);
 
-        $weeklyExpenses = $this->getWeeklySummaryData($userId);
+        $weeklyExpenses = $this->getWeeklySummaryData();
 
         return Inertia::render('Allowance/Index', [
             'allowance' => $allowance,
@@ -61,12 +61,11 @@ class AllowanceController extends Controller
     /**
      * Get weekly summary data
      *
-     * @param int $userId
      * @return array
      */
-    protected function getWeeklySummaryData(int $userId): array
+    protected function getWeeklySummaryData(): array
     {
-        $expenses = $this->expenseApplicationService->getWeeklySummary($userId);
+        $expenses = $this->expenseApplicationService->getWeeklySummary();
         return $expenses->map(function ($expense) {
             return [
                 'type' => $expense->type,
