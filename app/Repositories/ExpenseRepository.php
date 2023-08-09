@@ -70,4 +70,58 @@ class ExpenseRepository
 
         return $getExpense;
     }
+
+    /**
+     * Get expense by id
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getById(int $id): object
+    {
+        $expense = Expense::where('id', $id)
+            ->first();
+
+        return $expense;
+    }
+
+    /**
+     * Edit expense
+     *
+     * @param array $request
+     * @param int $expenseId
+     * @return void
+     */
+    public function edit(array $request, int $expenseId): void
+    {
+        DB::beginTransaction();
+        try {
+            Expense::find($expenseId)->fill($request)->save();
+
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollback();
+            Log::error($e);
+        }
+    }
+
+    /**
+     * Delete expense
+     *
+     * @throws \Exception
+     * @return void
+     */
+    public function deleteExpense(): void
+    {
+        DB::beginTransaction();
+        try {
+            Expense::where('user_id', Auth::id())->delete();
+
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollback();
+            Log::error('Failed to create an expense: ', ['error' => $e->getMessage()]);
+            throw $e;
+        }
+    }
 }

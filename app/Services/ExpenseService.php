@@ -37,6 +37,7 @@ class ExpenseService
     /**
      * Get allowance
      *
+     * @param int $allowanceId
      * @return object
      */
     public function getAll(int $allowanceId): object
@@ -44,5 +45,49 @@ class ExpenseService
         $allowance = $this->expenseRepository->getAll($allowanceId);
 
         return $allowance;
+    }
+
+    /**
+     * Get expense by id
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getById(int $id): object
+    {
+        $expense = $this->expenseRepository->getById($id);
+
+        return $expense;
+    }
+
+    /**
+     * Edit allowance
+     *
+     * @param array $request
+     * @param int $expenseId
+     * @return array
+     */
+    public function edit(array $request, int $expenseId): array
+    {
+        $originalExpense = $this->expenseRepository->getById($expenseId)->expense;
+        $this->expenseRepository->edit($request, $expenseId);
+
+        $newExpense = $request['expense'];
+        $expenseResponse = [
+            'originalExpense' => $originalExpense,
+            'newExpense' => $newExpense,
+        ];
+
+        return $expenseResponse;
+    }
+
+    /**
+     * Delete expense
+     *
+     * @return void
+     */
+    public function delete(): void
+    {
+        $this->expenseRepository->deleteExpense();
     }
 }

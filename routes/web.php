@@ -41,13 +41,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/allowance', [AllowanceController::class, 'index'])->name('allowance.index');
     Route::get('/allowance/create', [AllowanceController::class, 'createView'])->name('allowance.createView');
     Route::patch('/allowance/create', [AllowanceController::class, 'create'])->name('allowance.create');
-    Route::get('/allowance/edit', [AllowanceController::class, 'editView'])->name('allowance.edit');
+    Route::get('/allowance/edit', [AllowanceController::class, 'editView'])->name('allowance.editView');
     Route::patch('/allowance/edit', [AllowanceController::class, 'edit'])->name('allowance.edit');
     Route::delete('/allowance', [AllowanceController::class, 'delete'])->name('allowance.delete');
 
     // expense
     Route::get('/expense/create', [ExpenseController::class, 'createView'])->name('expense.createView');
     Route::post('/expense/create', [ExpenseController::class, 'create'])->name('expense.create');
+    Route::get('/expense/edit/{expenseId}', [ExpenseController::class, 'editView'])->name('expense.editView');
+    Route::post('/expense/edit/{expenseId}', [ExpenseController::class, 'edit'])->name('expense.edit');
+    Route::delete('/expense', [ExpenseController::class, 'delete'])->name('expense.delete');
 });
 
 require __DIR__.'/auth.php';

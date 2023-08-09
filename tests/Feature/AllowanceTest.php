@@ -13,6 +13,25 @@ test('allowance page is displayed', function () {
     $response->assertOk();
 });
 
+test('allowance information can be created', function () {
+    $user = User::factory()->create();
+    $allowance = Allowance::factory()->create(['user_id' => $user->id]);
+
+    $response = $this
+        ->actingAs($user)
+        ->patch('/allowance/create', [
+            'user_id' => 2,
+            'allowance' => '1000',
+        ]);
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect('/allowance');
+
+    $allowance->refresh();
+    $this->assertSame('1000', $allowance->allowance);
+});
+
 test('allowance information can be updated', function () {
     $user = User::factory()->create();
     $allowance = Allowance::factory()->create(['user_id' => $user->id]);
@@ -26,7 +45,7 @@ test('allowance information can be updated', function () {
 
     $response
         ->assertSessionHasNoErrors()
-        ->assertRedirect('/allowance/edit');
+        ->assertRedirect('/allowance');
 
     $allowance->refresh();
     $this->assertSame('1000', $allowance->allowance);
