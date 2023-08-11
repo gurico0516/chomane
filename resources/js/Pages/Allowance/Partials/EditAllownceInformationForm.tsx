@@ -40,9 +40,15 @@ export default function EditAllownceInformation({ status, className = '' }: { st
 
                     <TextInput
                         id="allowance"
+                        type="text"
+                        pattern="^\d*$"
                         className="mt-1 block w-full"
                         value={data.allowance}
-                        onChange={(e) => setData('allowance', e.target.value)}
+                        onChange={(e) => {
+                            if (/^\d*$/.test(e.target.value)) {
+                                setData('allowance', e.target.value);
+                            }
+                        }}
                         required
                     />
 

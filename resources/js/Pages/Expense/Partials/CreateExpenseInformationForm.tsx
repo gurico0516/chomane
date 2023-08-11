@@ -49,8 +49,14 @@ export default function CreateExpenseInformation({
 
                     <TextInput
                         id="expense"
+                        type="text"
+                        pattern="^\d*$"
                         className="mt-1 block w-full"
-                        onChange={(e) => setData("expense", e.target.value)}
+                        onChange={(e) => {
+                            if (/^\d*$/.test(e.target.value)) {
+                                setData('expense', e.target.value);
+                            }
+                        }}
                         required
                     />
 

@@ -49,9 +49,15 @@ export default function EditExpenseInformation({ status, className = '' }: { sta
 
                     <TextInput
                         id="expense"
+                        type="text"
+                        pattern="^\d*$"
                         className="mt-1 block w-full"
                         value={data.expense}
-                        onChange={(e) => setData("expense", e.target.value)}
+                        onChange={(e) => {
+                            if (/^\d*$/.test(e.target.value)) {
+                                setData('expense', e.target.value);
+                            }
+                        }}
                         required
                     />
 

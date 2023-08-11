@@ -59,13 +59,13 @@ export default function Index({
                 {allowance?.user_id ? (
                     <Link href={route("allowance.edit", allowance?.user_id)}>
                         <button className="bg-gray-800 hover:bg-gray-700 w-full text-white text-6xl px-4 py-2 shadow-md transition-transform transform hover:scale-105">
-                            {allowance?.allowance ? allowance?.allowance : 0}円
+                            {allowance?.allowance ? Number(allowance?.allowance).toLocaleString() : '0'}円
                         </button>
                     </Link>
                 ) : (
                     <Link href={route("allowance.create")}>
                         <button className="bg-gray-800 hover:bg-gray-700 w-full text-white text-6xl px-4 py-2 shadow-md transition-transform transform hover:scale-105">
-                            {allowance?.allowance ? allowance?.allowance : 0}円
+                            {allowance?.allowance ? Number(allowance?.allowance).toLocaleString() : '0'}円
                         </button>
                     </Link>
                 )}
