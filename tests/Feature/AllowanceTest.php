@@ -2,6 +2,7 @@
 
 use Database\Factories\UserFactory;
 use Database\Factories\AllowanceFactory;
+use Database\Factories\ExpenseFactory;
 
 test('allowance page is displayed', function () {
     $user = UserFactory::new()->create();
@@ -64,4 +65,23 @@ test('user can delete their allowance', function () {
         ->assertRedirect('/allowance');
 
     $this->assertNull($allowance->fresh());
+});
+
+test('allowance page displays weekly expenses summary', function () {
+    $user = UserFactory::new()->create();
+
+    ExpenseFactory::new()->create(['user_id' => $user->id, 'type' => '1', 'expense' => 100, 'created_at' => now()->startOfWeek()]);
+    ExpenseFactory::new()->create(['user_id' => $user->id, 'type' => '2', 'expense' => 200, 'created_at' => now()->startOfWeek()->addDay(1)]);
+
+    $response = $this
+        ->actingAs($user)
+        ->get('/allowance');
+
+    $response->assertOk();
+
+    $weeklyExpenses = $response->viewData('page')['props']['weeklyExpenses'];
+
+    $this->assertCount(2, $weeklyExpenses);
+    $this->assertContains(['type' => '1', 'total' => 100.0], $weeklyExpenses);
+    $this->assertContains(['type' => '2', 'total' => 200.0], $weeklyExpenses);
 });
