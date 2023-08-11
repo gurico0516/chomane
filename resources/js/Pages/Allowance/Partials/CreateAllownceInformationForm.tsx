@@ -41,8 +41,14 @@ export default function CreateAllownceInformation({
 
                     <TextInput
                         id="allowance"
+                        type="text"
+                        pattern="^\d*$"
                         className="mt-1 block w-full"
-                        onChange={(e) => setData('allowance', e.target.value)}
+                        onChange={(e) => {
+                            if (/^\d*$/.test(e.target.value)) {
+                                setData('allowance', e.target.value);
+                            }
+                        }}
                         required
                     />
 

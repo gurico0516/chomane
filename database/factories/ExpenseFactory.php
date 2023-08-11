@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Domains\Allowance\Entities\Allowance>
  */
-class AllowanceFactory extends Factory
+class ExpenseFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = \App\Domains\Allowance\Entities\Allowance::class;
+    protected $model = \App\Domains\Expense\Entities\Expense::class;
 
     /**
      * Define the model's default state.
@@ -24,8 +24,13 @@ class AllowanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => $this->faker->randomDigit,
-            'allowance' => '1000',
+            'allowance_id' => $this->faker->randomDigitNotNull, 
+            'expense' => $this->faker->randomNumber(4),
+            'memo' => $this->faker->sentence,
+            'type' => $this->faker->randomElement(['1', '2', '3', '4']), // 1:雑費、2:食費、3:消耗品費、4:交通費
+            'user_id' => $this->faker->randomDigitNotNull,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 

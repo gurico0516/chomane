@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Infrastructure\Repositories;
 
-use App\Models\Allowance;
+use App\Domains\Allowance\Entities\Allowance;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
