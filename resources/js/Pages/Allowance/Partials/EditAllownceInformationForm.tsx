@@ -7,8 +7,12 @@ import { Transition } from '@headlessui/react';
 import { FormEventHandler } from 'react';
 import { PageProps } from '@/types';
 
+type AllownceObjectType = {
+    allowance?: string;
+};
+
 export default function EditAllownceInformation({ status, className = '' }: { status?: string, className?: string }) {
-    const allowanceObject = usePage<PageProps>().props.allowance;
+    const allowanceObject = usePage<PageProps<{ allowance: AllownceObjectType }>>().props.allowance;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         allowance: allowanceObject?.allowance,
@@ -36,9 +40,15 @@ export default function EditAllownceInformation({ status, className = '' }: { st
 
                     <TextInput
                         id="allowance"
+                        type="text"
+                        pattern="^\d*$"
                         className="mt-1 block w-full"
                         value={data.allowance}
-                        onChange={(e) => setData('allowance', e.target.value)}
+                        onChange={(e) => {
+                            if (/^\d*$/.test(e.target.value)) {
+                                setData('allowance', e.target.value);
+                            }
+                        }}
                         required
                     />
 

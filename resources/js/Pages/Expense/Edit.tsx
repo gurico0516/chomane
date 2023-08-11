@@ -13,7 +13,7 @@ export default function Edit({ auth, status }: PageProps<{ status?: string }>) {
                 </h2>
             }
         >
-            <Head title="Allowance Edit" />
+            <Head title="Expense Edit" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">

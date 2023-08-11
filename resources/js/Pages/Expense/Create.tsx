@@ -6,13 +6,13 @@ import { PageProps } from "@/types";
 export default function Create({
     auth,
     status,
-}: PageProps<{ status?: string }>) {
+}: PageProps<{ status?: string;}>) {
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    経費記録
+                    支出記録
                 </h2>
             }
         >

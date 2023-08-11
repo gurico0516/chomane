@@ -7,7 +7,13 @@ import { Transition } from '@headlessui/react';
 import { FormEventHandler } from 'react';
 import { PageProps } from '@/types';
 
-export default function CreateAllownceInformation({ status, className = '' }: { status?: string, className?: string }) {
+export default function CreateAllownceInformation({
+    status,
+    className = ''
+}: {
+    status?: string,
+    className?: string
+}) {
     const allowance = usePage<PageProps>().props.allowance;
 
     const { setData, patch, errors, processing, recentlySuccessful } = useForm({
@@ -16,7 +22,6 @@ export default function CreateAllownceInformation({ status, className = '' }: { 
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-
         patch(route('allowance.create'));
     };
 
@@ -36,8 +41,14 @@ export default function CreateAllownceInformation({ status, className = '' }: { 
 
                     <TextInput
                         id="allowance"
+                        type="text"
+                        pattern="^\d*$"
                         className="mt-1 block w-full"
-                        onChange={(e) => setData('allowance', e.target.value)}
+                        onChange={(e) => {
+                            if (/^\d*$/.test(e.target.value)) {
+                                setData('allowance', e.target.value);
+                            }
+                        }}
                         required
                     />
 
