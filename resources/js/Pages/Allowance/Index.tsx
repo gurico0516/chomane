@@ -55,41 +55,41 @@ export default function Index({
         >
             <Head title="Allowance" />
 
-            <div className="bg-white shadow-lg sm:rounded-lg mb-10 overflow-hidden">
-                {allowance?.user_id ? (
-                    <Link href={route("allowance.edit", allowance?.user_id)}>
-                        <button className="bg-gray-800 hover:bg-gray-700 w-full text-white text-6xl px-4 py-2 shadow-md transition-transform transform hover:scale-105">
-                            {allowance?.allowance ? Number(allowance?.allowance).toLocaleString() : '0'}円
-                        </button>
-                    </Link>
-                ) : (
-                    <Link href={route("allowance.create")}>
-                        <button className="bg-gray-800 hover:bg-gray-700 w-full text-white text-6xl px-4 py-2 shadow-md transition-transform transform hover:scale-105">
-                            {allowance?.allowance ? Number(allowance?.allowance).toLocaleString() : '0'}円
-                        </button>
-                    </Link>
-                )}
-                <div className="flex">
-                    <label className={`${commonClasses} bg-green-500 hover:bg-green-600 shadow-md transition-transform transform hover:scale-105`}>
-                        <Link href={route("allowance.create")}>
-                            <button className="text-2xl">お小遣い記録</button>
+            <div className="w-11/12 mx-auto my-10">
+                <div className="bg-white shadow-lg sm:rounded-lg overflow-hidden p-2">
+                    {allowance?.user_id ? (
+                        <Link href={route("allowance.edit", allowance?.user_id)}>
+                            <button className="bg-gray-800 hover:bg-gray-700 w-full text-white text-6xl px-4 py-2 shadow-md transition-transform transform hover:scale-105">
+                                {allowance?.allowance ? Number(allowance?.allowance).toLocaleString() : '0'}円
+                            </button>
                         </Link>
-                    </label>
-                    <label className={`${commonClasses} bg-blue-500 hover:bg-blue-600 shadow-md transition-transform transform hover:scale-105`}>
-                        <a href={route("expense.create", allowance?.id)}>
-                            <button className="text-2xl">支出の記録</button>
-                        </a>
-                    </label>
+                    ) : (
+                        <Link href={route("allowance.create")}>
+                            <button className="bg-gray-800 hover:bg-gray-700 w-full text-white text-6xl px-4 py-2 shadow-md transition-transform transform hover:scale-105">
+                                {allowance?.allowance ? Number(allowance?.allowance).toLocaleString() : '0'}円
+                            </button>
+                        </Link>
+                    )}
+                    <div className="flex">
+                        <label className={`${commonClasses} bg-green-500 hover:bg-green-600 shadow-md transition-transform transform hover:scale-105`}>
+                            <Link href={route("allowance.create")}>
+                                <button className="text-2xl">お小遣い記録</button>
+                            </Link>
+                        </label>
+                        <label className={`${commonClasses} bg-blue-500 hover:bg-blue-600 shadow-md transition-transform transform hover:scale-105`}>
+                            <a href={route("expense.create", allowance?.id)}>
+                                <button className="text-2xl">支出の記録</button>
+                            </a>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
+                <div className="flex items-center space-x-6 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                    <DeleteAllowanceForm className="flex-grow max-w-xl text-center" />
+                    <DeleteExpenseForm className="flex-grow max-w-xl text-center" />
+                </div>
 
-            <div className="flex items-center space-x-6 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <DeleteAllowanceForm className="flex-grow max-w-xl text-center" />
-                <DeleteExpenseForm className="flex-grow max-w-xl text-center" />
-            </div>
-
-            <div className="mt-8 bg-gray-800 p-4 rounded-lg">
+                <div className="mt-8 bg-gray-800 p-4 rounded-lg">
                 <h2 className="text-white mb-4">1週間の支出グラフ</h2>
                 <ExpenseChart expenses={weeklyExpenses} />
                 <div className="mt-4 flex flex-wrap space-y-2">
@@ -116,9 +116,8 @@ export default function Index({
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {expenses?.map((expense, index) => (
+                {expenses?.map((expense, index) => (
                 <div key={index} className="mt-4 bg-white shadow-sm sm:rounded-lg transition-transform transform hover:scale-105">
                     <Link href={route("expense.edit", expense?.id)}>
                         <a className="block p-6 border-b border-gray-200 flex items-center justify-between cursor-pointer">
@@ -137,7 +136,10 @@ export default function Index({
                         </a>
                     </Link>
                 </div>
-            ))} 
+            ))}
+            </div>
+
+            </div>
         </AuthenticatedLayout>
     );
 }
