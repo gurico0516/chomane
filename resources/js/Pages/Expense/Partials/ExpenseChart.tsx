@@ -10,7 +10,17 @@ interface ExpenseProps {
 
 const ExpenseChart: React.FC<ExpenseProps> = ({ expenses }) => {
     const isEmpty = !expenses || expenses.length === 0;
-    
+
+    const getColorByType = (type: any) => {
+        switch(type) {
+            case '1': return '#FF6384';
+            case '2': return '#36A2EB';
+            case '3': return '#FFCE56';
+            case '4': return '#4BC0C0';
+            default: return '#f1f1f1';
+        }
+    };
+
     const data = {
         labels: isEmpty ? ['No Data'] : expenses.map(item => {
             switch(item.type) {
@@ -23,7 +33,7 @@ const ExpenseChart: React.FC<ExpenseProps> = ({ expenses }) => {
         }),
         datasets: [{
             data: isEmpty ? [1] : expenses.map(item => item.total),
-            backgroundColor: isEmpty ? ['#f1f1f1'] : ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+            backgroundColor: isEmpty ? ['#f1f1f1'] : expenses.map(item => getColorByType(item.type)),
         }],
     };
 
