@@ -6,6 +6,7 @@ use App\Domains\Allowance\Entities\Allowance;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 use Throwable;
 
 class AllowanceRepository
@@ -80,8 +81,11 @@ class AllowanceRepository
      */
     public function get(int $userId): ?object
     {
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
         $getAllowance = Allowance::where('user_id', $userId)
-            ->latest('created_at')
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->first();
 
         return $getAllowance;
